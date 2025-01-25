@@ -73,6 +73,7 @@ jobs:
 
     - name: Deploy with Helm
       run: |
+        gcloud components install gke-gcloud-auth-plugin
         gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
         gcloud container clusters get-credentials reverse-ip-cluster --region us-central1 --project ${{ secrets.GCP_PROJECT_ID }}
 
