@@ -38,10 +38,10 @@ jobs:
 
     - name: Push Docker image to Google Container Registry
       run: |
-        gcloud artifacts docker images list us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app
+        gcloud artifacts docker images list us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/reverse-ip-app
         gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://us-central1-docker.pkg.dev
-        docker tag reverse-ip-app us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
-        docker push us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
+        docker tag reverse-ip-app us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/reverse-ip-app/reverse-ip
+        docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/reverse-ip-app/reverse-ip
 
   HelmDeploy:
     runs-on: ubuntu-latest
@@ -61,6 +61,7 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
+    
     - name: Set up Helm
       run: |
         curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
@@ -72,8 +73,11 @@ jobs:
 
     - name: Deploy with Helm
       run: |
+        gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
+        gcloud container clusters get-credentials reverse-ip-cluster --region us-central1 --project ${{ secrets.GCP_PROJECT_ID }}
+
         helm upgrade --install reverse-ip-release ./reverse-ip-chart \
-          --set image.repository=us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip \
+          --set image.repository=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/reverse-ip-app/reverse-ip \
           --set image.tag=latest \
           --set service.nodePort=30001 \
           --set env.DB_HOST=${{ secrets.DB_HOST }} \
