@@ -15,3 +15,13 @@ jobs:
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+    - name: Build Docker image
+      run: |
+        docker build -t reverse-ip-app .
+
+    - name: Push Docker image to Google Container Registry
+      run: |
+        gcloud auth configure-docker
+        docker tag us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/reverse-ip-app/reverse-ip
+        docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/reverse-ip-app/reverse-ip
