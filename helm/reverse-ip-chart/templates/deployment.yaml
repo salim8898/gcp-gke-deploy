@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "reverse-ip-chart.fullname" . }}
+  labels:
+    app: {{ include "reverse-ip-chart.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "reverse-ip-chart.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "reverse-ip-chart.name" . }}
+    spec:
+      containers:
+        - name: reverse-ip-app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: DB_HOST
+              value: {{ .Values.env.DB_HOST }}
+            - name: DB_NAME
+              value: {{ .Values.env.DB_NAME }}
+            - name: DB_USER
+              value: {{ .Values.env.DB_USER }}
+            - name: DB_PASSWORD
+              value: {{ .Values.env.DB_PASSWORD }}

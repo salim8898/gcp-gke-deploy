@@ -1,0 +1,18 @@
+replicaCount: 1
+
+image:
+  repository: us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 8080
+  targetPort: 8080
+  nodePort: 30001
+
+env:
+  DB_HOST: ""
+  DB_NAME: ""
+  DB_USER: ""
+  DB_PASSWORD: ""
