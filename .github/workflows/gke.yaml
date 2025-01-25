@@ -33,6 +33,7 @@ jobs:
 
     - name: Push Docker image to Google Container Registry
       run: |
+        gcloud config get-value account
         gcloud auth configure-docker
         docker tag reverse-ip-app us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
         docker push us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
