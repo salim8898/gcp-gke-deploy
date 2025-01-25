@@ -77,7 +77,7 @@ jobs:
         gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
         gcloud container clusters get-credentials reverse-ip-cluster --region us-central1 --project ${{ secrets.GCP_PROJECT_ID }}
 
-        helm upgrade --install reverse-ip-release ./reverse-ip-chart \
+        helm upgrade --install reverse-ip-release ./helm/reverse-ip-chart \
           --set image.repository=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/reverse-ip-app/reverse-ip \
           --set image.tag=latest \
           --set service.nodePort=30001 \
