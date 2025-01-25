@@ -21,28 +21,28 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCP_CREDENTIALS }}
           
-    - name: Debug
-      run: |
-         gcloud config get-value account
+    # - name: Debug
+    #   run: |
+    #      gcloud config get-value account
           
-    # - name: Set environment variables
-    #   run: |
-    #     echo "DB_HOST=${{ secrets.DB_HOST }}" >> $GITHUB_ENV
-    #     echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
-    #     echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
-    #     echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+    - name: Set environment variables
+      run: |
+        echo "DB_HOST=${{ secrets.DB_HOST }}" >> $GITHUB_ENV
+        echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
+        echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
+        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
 
-    # - name: Build Docker image
-    #   run: |
-    #     docker build --build-arg DB_HOST=${{ secrets.DB_HOST }} \
-    #                  --build-arg DB_NAME=${{ secrets.DB_NAME }} \
-    #                  --build-arg DB_USER=${{ secrets.DB_USER }} \
-    #                  --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
-    #                  -t reverse-ip-app .
+    - name: Build Docker image
+      run: |
+        docker build --build-arg DB_HOST=${{ secrets.DB_HOST }} \
+                     --build-arg DB_NAME=${{ secrets.DB_NAME }} \
+                     --build-arg DB_USER=${{ secrets.DB_USER }} \
+                     --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+                     -t reverse-ip-app .
 
-    # - name: Push Docker image to Google Container Registry
-    #   run: |
+    - name: Push Docker image to Google Container Registry
+      run: |
        
-    #     gcloud auth configure-docker
-    #     docker tag reverse-ip-app us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
-    #     docker push us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
+        gcloud auth configure-docker
+        docker tag reverse-ip-app us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
+        docker push us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
