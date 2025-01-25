@@ -19,7 +19,12 @@ jobs:
       uses: 'google-github-actions/setup-gcloud@v2'
           
     - name: "Use gcloud CLI"
-      run: "gcloud info"
+      run: 
+        gcloud info
+        gcloud config get-value account
+        gcloud auth list
+        gcloud container clusters list --project=fifth-repeater-448910-s5 --location=us-central1
+        
           
     # - name: Set environment variables
     #   run: |
