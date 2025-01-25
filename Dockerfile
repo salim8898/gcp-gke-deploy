@@ -16,8 +16,7 @@ ENV DB_PASSWORD=$DB_PASSWORD
 
 COPY /app/app.py /app
 
-RUN apt-get update && apt-get install -y gcc libpq-dev && \
-    pip install --no-cache-dir flask psycopg2
+RUN pip install flask mysql-connector-python
 
 EXPOSE 8080
 
