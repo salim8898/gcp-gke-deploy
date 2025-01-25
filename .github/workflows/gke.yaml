@@ -35,6 +35,6 @@ jobs:
 
     - name: Push Docker image to Google Container Registry
       run: |
-         gcloud artifacts docker images list us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app
-        # docker tag reverse-ip-app us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
-        # docker push us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
+        gcloud artifacts docker images list us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app
+        docker tag reverse-ip-app us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
+        docker push us-central1-docker.pkg.dev/fifth-repeater-448910-s5/reverse-ip-app/reverse-ip
