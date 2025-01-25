@@ -1,15 +1,16 @@
 import os
 from flask import Flask, request
-import psycopg2
+import mysql.connector
 
 app = Flask(__name__)
 
 def get_db_connection():
-    conn = psycopg2.connect(
+    conn = mysql.connector.connect(
         host=os.getenv('DB_HOST'),
         database=os.getenv('DB_NAME'),
         user=os.getenv('DB_USER'),
-        password=os.getenv('DB_PASSWORD')
+        password=os.getenv('DB_PASSWORD'),
+        port=3306  # Default MySQL port
     )
     return conn
 
@@ -21,7 +22,8 @@ def reverse_ip():
 
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO ip_addresses (ip_address) VALUES (%s)', (reversed_ip,))
+    cursor.execute('CREATE TABLE IF NOT EXISTS reverse_ips (id INT AUTO_INCREMENT PRIMARY KEY, ip_address VARCHAR(255))')
+    cursor.execute('INSERT INTO reverse_ips (ip_address) VALUES (%s)', (reversed_ip,))
     conn.commit()
     conn.close()
 
