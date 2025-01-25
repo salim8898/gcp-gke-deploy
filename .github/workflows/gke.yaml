@@ -20,10 +20,7 @@ jobs:
           
     - name: "Use gcloud CLI"
       run: 
-        gcloud info
-        gcloud config get-value account
         gcloud auth list
-        gcloud container clusters list --project=fifth-repeater-448910-s5 --location=us-central1
         
           
     # - name: Set environment variables
